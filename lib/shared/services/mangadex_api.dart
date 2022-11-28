@@ -85,7 +85,7 @@ class MangaDexApi {
     if (!await _checkToken()) {
       try {
         await _refreshToken();
-      } on app.HttpException catch (exception) {
+      } on app.HttpException {
         // Clean up storage
         _secureStorage.delete(key: tokenSecureKey);
         _secureStorage.delete(key: refreshTokenSecureKey);

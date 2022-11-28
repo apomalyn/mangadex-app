@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mangadex/locator.dart';
 import 'package:mangadex/login/login_view.dart';
 import 'package:mangadex/shared/constant/app_theme.dart';
-import 'package:mangadex/shared/utils/color.dart';
 
 void main() {
   registerLocator();
