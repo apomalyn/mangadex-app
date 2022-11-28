@@ -285,3 +285,7 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,flutter,android,linux,macos,windows,xcode
+
+# Freezed files
+**/*.freezed.dart
+**/*.g.dart
