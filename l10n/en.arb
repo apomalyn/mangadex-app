@@ -1,8 +1,12 @@
 {
   "@@locale": "en",
   "app_name": "MangaDex",
+  "error_unknown": "Something went wrong, we are sorry. Please retry later.",
   "login_password_field_label": "Password",
-  "login_username_field_label": "Username/email",
+  "login_username_field_label": "Username",
   "login_submit": "Log in",
-  "login_forgot_username_password": "Forgot Username/Password"
+  "login_forgot_username_password": "Forgot Username/Password",
+  "login_enter_username": "Please enter your username",
+  "login_enter_password": "Please enter your password",
+  "login_invalid_credentials": "Wrong credentials, please retry"
 }
