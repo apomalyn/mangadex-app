@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mangadex/locator.dart';
 import 'package:mangadex/login/login_view.dart';
 import 'package:mangadex/shared/constant/route_paths.dart';
-import 'package:mangadex/shared/services/mangadex_api.dart';
-
-final _api = locator<MangaDexApi>();
 
 // GoRouter configuration
 final router = GoRouter(
