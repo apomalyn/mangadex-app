@@ -1,0 +1,100 @@
+name: Build and pre-release the application
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.gitignore'
+      - '.metadata'
+      - 'README.md'
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  APP_NAME: 'MangaDex'
+jobs:
+  build:
+    name: Create ${{ matrix.target }} build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        target: [ iOS, Android ]
+        include:
+          - os: macos-latest
+            target: iOS
+            build_target: ios
+            build_args: --no-codesign
+            build_path: build/ios/iphoneos
+            asset_extension: zip
+            asset_content_type: application/zip
+          - os: ubuntu-latest
+            target: Android
+            build_target: apk
+            build_args: ''
+            build_path: build/app/outputs/apk/release
+            asset_extension: apk
+            asset_content_type: application/zip
+      # Disable fail-fast as we want results from all even if one fails.
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: 'stable'
+          cache: true
+      - name: Install Android dependencies
+        if: matrix.target == 'Android'
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - run: flutter doctor -v
+
+      - name: Get dependencies.
+        run: flutter pub get
+
+      - name: Generate files
+        run: flutter pub run build_runner build
+
+      # Build the application.
+      - name: Build the application
+        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --release
+
+      - name: Rename Android build
+        if: matrix.target == 'Android'
+        run: mv app-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.APP_NAME }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+        working-directory: ${{ matrix.build_path }}
+
+      - name: Compress iOS build
+        if: matrix.target == 'iOS'
+        run: |
+          mv Runner.app ${{ env.APP_NAME }}.app
+          ditto -c -k --sequesterRsrc --keepParent ${{ env.APP_NAME }}.app ${{ github.workspace }}/${{ env.APP_NAME }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+        working-directory: ${{ matrix.build_path }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ github.workspace }}/${{ env.APP_NAME }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+  create_pre_release:
+    name: Create GitHub release
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download iOS build
+        uses: actions/download-artifact@v3
+        with:
+          name: iOS
+      - name: Download Android build
+        uses: actions/download-artifact@v3
+        with:
+          name: Android
+      - name: Download build of Android and iOS
+        uses: actions/download-artifact@v3
+        with:
+          path: build
+      - name: Create pre-release
+        run: |
+          gh release create ${{ needs.tag_validation.outputs.version }} */** --title v${{ needs.tag_validation.outputs.version }} -R '${{ github.repository }}' --prerelease --generate-notes
+        working-directory: build

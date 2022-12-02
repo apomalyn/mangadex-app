@@ -12,7 +12,7 @@ class PasswordField extends StatefulWidget {
       this.onEditionComplete});
 
   @override
-  _PasswordState createState() => _PasswordState();
+  State<PasswordField> createState() => _PasswordState();
 }
 
 class _PasswordState extends State<PasswordField> {
