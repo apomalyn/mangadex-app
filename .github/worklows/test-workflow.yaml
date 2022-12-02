@@ -1,0 +1,126 @@
+name: Build, format, lint and test the application
+on:
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '.metadata'
+      - 'README.md'
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  APP_NAME: 'MangaDex'
+jobs:
+  tests:
+    name: Run the tests and checks
+    runs-on: ubuntu-latest
+    outputs:
+      coverage: ${{ steps.coverage.outputs.percentage }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x.x'
+          channel: 'stable'
+          cache: true
+      - run: flutter doctor
+      - name: Get flutter dependencies
+        run: flutter pub get
+
+      # Check the format of the code and commit the formatted files.
+      - name: Format files in lib and test directories
+        run: flutter format lib test
+      - name: Commit formatted files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: "*.dart"
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "[BOT] Applying format."
+          add_options: '-u'
+
+      # Check if the code has any errors/warnings
+      - name: Analyze code
+        run: flutter analyze
+
+      # Run the tests with --update-goldens.
+      - name: Run tests
+        run: flutter test --coverage
+      - name: Comment the coverage of the PR
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+  build:
+    name: Create ${{ matrix.target }} build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        target: [ iOS, Android ]
+        include:
+          - os: macos-latest
+            target: iOS
+            build_target: ios
+            build_args: --no-codesign
+            build_path: build/ios/iphoneos
+            asset_extension: zip
+            asset_content_type: application/zip
+          - os: ubuntu-latest
+            target: Android
+            build_target: apk
+            build_args: ''
+            build_path: build/app/outputs/apk/release
+            asset_extension: apk
+            asset_content_type: application/zip
+      # Disable fail-fast as we want results from all even if one fails.
+      fail-fast: false
+    needs:
+      - testing
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x.x'
+          channel: 'stable'
+          cache: true
+      - name: Install Android dependencies
+        if: matrix.target == 'Android'
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - run: flutter doctor -v
+      - name: Install iOS dependencies
+        if: matrix.target == 'iOS'
+        run: |
+          flutter pub get
+          cd ios
+          rm Podfile.lock
+          pod install --repo-update
+          flutter clean
+      # Get dependencies and decrypt needed files.
+      - run: flutter pub get
+
+      # Build the application.
+      - name: Build the application
+        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --release
+
+      - name: Rename Android build
+        if: matrix.target == 'Android'
+        run: mv app-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.APP_NAME }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+        working-directory: ${{ matrix.build_path }}
+
+      - name: Compress iOS build
+        if: matrix.target == 'iOS'
+        run: |
+          mv Runner.app ${{ env.APP_NAME }}.app
+          ditto -c -k --sequesterRsrc --keepParent ${{ env.APP_NAME }}.app ${{ github.workspace }}/${{ env.APP_NAME }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+        working-directory: ${{ matrix.build_path }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ github.workspace }}/${{ env.APP_NAME }}_${{ matrix.target }}.${{ matrix.asset_extension }}
