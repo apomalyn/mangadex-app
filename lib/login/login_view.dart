@@ -40,22 +40,27 @@ class _LoginViewState extends State<LoginView> {
                       flex: 1,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 40),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                child: Image.asset(
-                                    Utils.imagePath('neko_sleeping.png'))),
-                            SvgPicture.asset(
-                                Utils.imagePath('mangadex_name.svg'),
-                                excludeFromSemantics: true,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color),
-                          ],
+                        child: Hero(
+                          tag: 'logo',
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  child: Image.asset(
+                                      Utils.imagePath('neko_sleeping.png'))),
+                              SvgPicture.asset(
+                                  Utils.imagePath('mangadex_name.svg'),
+                                  excludeFromSemantics: true,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color),
+                            ],
+                          ),
                         ),
                       ),
                     ),

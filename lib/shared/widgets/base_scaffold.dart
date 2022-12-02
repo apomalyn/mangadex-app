@@ -48,8 +48,6 @@ class _BaseScaffoldState extends State<BaseScaffold> {
                 Loading(
                     isInteractionLimited:
                         widget.isInteractionLimitedWhileLoading)
-              else
-                const SizedBox()
             ],
           ),
         ),
