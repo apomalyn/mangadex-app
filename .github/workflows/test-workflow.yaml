@@ -76,8 +76,6 @@ jobs:
             asset_content_type: application/zip
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false
-    needs:
-      - testing
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
