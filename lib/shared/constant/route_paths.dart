@@ -1,4 +1,3 @@
-
 class RoutePaths {
   RoutePaths._();
 
@@ -6,9 +5,5 @@ class RoutePaths {
   static const String login = "/login";
   static const String startup = "/startup";
 
-  static List<String> get paths => [
-    home,
-    login,
-    startup
-  ];
+  static List<String> get paths => [home, login, startup];
 }
