@@ -11,6 +11,24 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   APP_NAME: 'MangaDex'
 jobs:
+  retrieve_version:
+    name: Retrieve version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.split.outputs._0 }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get the version from the pubspec
+        id: pubspecVersion
+        uses: CumulusDS/get-yaml-paths-action@v0.1.1
+        with:
+          file: pubspec.yaml
+          version: version
+      - uses: jungwinter/split@v2
+        id: split
+        with:
+          msg: ${{ steps.pubspecVersion.outputs.version }}
+          separator: '+'
   build:
     name: Create ${{ matrix.target }} build
     runs-on: ${{ matrix.os }}
@@ -79,6 +97,7 @@ jobs:
   create_pre_release:
     name: Create GitHub release
     needs:
+      - retrieve_version
       - build
     runs-on: ubuntu-latest
     steps:
@@ -96,5 +115,5 @@ jobs:
           path: build
       - name: Create pre-release
         run: |
-          gh release create ${{ needs.tag_validation.outputs.version }} */** --title v${{ needs.tag_validation.outputs.version }} -R '${{ github.repository }}' --prerelease --generate-notes
+          gh release create ${{ needs.retrieve_version.outputs.version }} */** --title v${{ needs.retrieve_version.outputs.version }} -R '${{ github.repository }}' --prerelease --generate-notes
         working-directory: build
