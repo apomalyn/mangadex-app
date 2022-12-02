@@ -60,7 +60,8 @@ class MangaDexApi {
     const endpoint = '/auth/login';
     final response = await _httpClient.post(buildUrl(endpoint),
         headers: await buildHeader(),
-        body: jsonEncode({'username': username, 'email': email, 'password': password}));
+        body: jsonEncode(
+            {'username': username, 'email': email, 'password': password}));
 
     // Handle logging error
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -113,7 +114,8 @@ class MangaDexApi {
     const endpoint = '/auth/refresh';
     final refreshToken = await _secureStorage.read(key: refreshTokenSecureKey);
     final response = await _httpClient.post(buildUrl(endpoint),
-        headers: await buildHeader(), body: jsonEncode({'token': refreshToken}));
+        headers: await buildHeader(),
+        body: jsonEncode({'token': refreshToken}));
 
     if (response.statusCode == HttpStatus.unauthorized) {
       throw const UnauthorizedException(

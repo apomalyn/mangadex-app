@@ -7,9 +7,10 @@ part 'check_response.g.dart';
 class CheckResponse with _$CheckResponse {
   const factory CheckResponse(
       {required String result,
-        required bool isAuthenticated,
-        @Default([]) List<String> roles,
-        @Default([]) List<String> permissions}) = _CheckResponse;
+      required bool isAuthenticated,
+      @Default([]) List<String> roles,
+      @Default([]) List<String> permissions}) = _CheckResponse;
 
-  factory CheckResponse.fromJson(Map<String, Object?> json) => _$CheckResponseFromJson(json);
+  factory CheckResponse.fromJson(Map<String, Object?> json) =>
+      _$CheckResponseFromJson(json);
 }
