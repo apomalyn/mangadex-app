@@ -26,8 +26,12 @@ jobs:
           channel: 'stable'
           cache: true
       - run: flutter doctor
-      - name: Get flutter dependencies
+
+      - name: Get dependencies.
         run: flutter pub get
+
+      - name: Generate files
+        run: flutter pub run build_runner build
 
       # Check the format of the code and commit the formatted files.
       - name: Format files in lib and test directories
@@ -90,8 +94,12 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - run: flutter doctor -v
-      # Get dependencies and decrypt needed files.
-      - run: flutter pub get
+
+      - name: Get dependencies.
+        run: flutter pub get
+
+      - name: Generate files
+        run: flutter pub run build_runner build
 
       # Build the application.
       - name: Build the application

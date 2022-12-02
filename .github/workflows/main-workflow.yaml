@@ -48,8 +48,12 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - run: flutter doctor -v
-      # Get dependencies and decrypt needed files.
-      - run: flutter pub get
+
+      - name: Get dependencies.
+        run: flutter pub get
+
+      - name: Generate files
+        run: flutter pub run build_runner build
 
       # Build the application.
       - name: Build the application
