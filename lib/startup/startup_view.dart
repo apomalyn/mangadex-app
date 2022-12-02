@@ -29,15 +29,11 @@ class StartupView extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: Image.asset(
                                 Utils.imagePath('neko_sleeping.png'))),
-                        SvgPicture.asset(
-                            Utils.imagePath('mangadex_name.svg'),
+                        SvgPicture.asset(Utils.imagePath('mangadex_name.svg'),
                             excludeFromSemantics: true,
-                            height:
-                            MediaQuery.of(context).size.height * 0.07,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color),
                       ],
                     ),
                   ),

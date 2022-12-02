@@ -46,7 +46,8 @@ class _LoginViewState extends State<LoginView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   child: Image.asset(
                                       Utils.imagePath('neko_sleeping.png'))),
                               SvgPicture.asset(
