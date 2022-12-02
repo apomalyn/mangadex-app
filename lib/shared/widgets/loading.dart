@@ -7,13 +7,13 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Stack(
-    children: [
-      if (isInteractionLimited)
-        const Opacity(
-          opacity: 0.5,
-          child: ModalBarrier(dismissible: false, color: Colors.grey),
-        ),
-      const Center(child: CircularProgressIndicator())
-    ],
-  );
+        children: [
+          if (isInteractionLimited)
+            const Opacity(
+              opacity: 0.5,
+              child: ModalBarrier(dismissible: false, color: Colors.grey),
+            ),
+          const Center(child: CircularProgressIndicator())
+        ],
+      );
 }

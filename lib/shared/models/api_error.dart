@@ -11,5 +11,6 @@ class ApiError with _$ApiError {
       required String title,
       required String detail}) = _ApiError;
 
-  factory ApiError.fromJson(Map<String, Object?> json) => _$ApiErrorFromJson(json);
+  factory ApiError.fromJson(Map<String, Object?> json) =>
+      _$ApiErrorFromJson(json);
 }

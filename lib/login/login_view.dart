@@ -112,8 +112,7 @@ class _LoginViewState extends State<LoginView> {
                                         width: double.infinity,
                                         child: ElevatedButton(
                                             onPressed: viewModel.canSubmit
-                                                ? () => viewModel
-                                                    .authenticate()
+                                                ? () => viewModel.authenticate()
                                                 : null,
                                             style: ButtonStyle(
                                                 backgroundColor:
@@ -121,16 +120,16 @@ class _LoginViewState extends State<LoginView> {
                                                         viewModel.canSubmit
                                                             ? AppTheme.orange
                                                             : Colors.white38),
-                                                shadowColor:
-                                                    MaterialStateProperty.all(
-                                                        AppTheme.orange),
+                                                shadowColor: MaterialStateProperty.all(
+                                                    AppTheme.orange),
                                                 padding: MaterialStateProperty.all(
                                                     const EdgeInsets.all(16))),
-                                            child:
-                                                Text(AppLocalizations.of(context)!.login_submit,
-                                                    style: Theme.of(context)
-                                                        .primaryTextTheme
-                                                        .headline5)),
+                                            child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .login_submit,
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .headline5)),
                                       ),
                                       const SizedBox(height: 20),
                                       TextButton(
