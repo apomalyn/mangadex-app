@@ -25,7 +25,9 @@ class AppTheme {
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
-        ));
+        ),
+        progressIndicatorTheme:
+            theme.progressIndicatorTheme.copyWith(color: Colors.black87));
   }
 
   static ThemeData darkTheme() {
@@ -44,7 +46,9 @@ class AppTheme {
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
-        ));
+        ),
+        progressIndicatorTheme:
+            theme.progressIndicatorTheme.copyWith(color: Colors.white));
   }
 
   static ThemeData slateTheme() {
@@ -63,6 +67,8 @@ class AppTheme {
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
-        ));
+        ),
+        progressIndicatorTheme:
+            theme.progressIndicatorTheme.copyWith(color: Colors.white));
   }
 }
