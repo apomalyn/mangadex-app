@@ -7,5 +7,5 @@ void main() {
   registerLocator();
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const AppConfig(environment: Environment.prod, child: MangaDexApp()));
+  runApp(const AppConfig(environment: Environment.beta, child: MangaDexApp()));
 }
