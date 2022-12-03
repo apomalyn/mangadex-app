@@ -60,22 +60,22 @@ android {
         }
     }
 
-    flavorDimensions "env"
-
+    flavorDimensions "default"
     productFlavors {
         dev {
-            dimension "env"
+            dimension "default"
             applicationIdSuffix ".dev"
-            resValue "string", "app_name", "[DEV] MangaDex"
+            manifestPlaceholders = [appName: "[DEV] MangaDex"]
         }
         beta {
-            dimension "env"
+            dimension "default"
             applicationIdSuffix ".beta"
-            resValue "string", "app_name", "[BETA] MangaDex"
+            manifestPlaceholders = [appName: "[BETA] MangaDex"]
         }
         prod {
-            dimension "env"
-            resValue "string", "app_name", "MangaDex"
+            dimension "default"
+            applicationIdSuffix ""
+            manifestPlaceholders = [appName: "MangaDex"]
         }
     }
 }

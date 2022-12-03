@@ -1,4 +1,4 @@
-flutter_icons:5:
+flutter_icons:
   image_path: "assets/icons/app_icon_dev.png"
   android: true
   ios: true
