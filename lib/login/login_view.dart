@@ -49,8 +49,8 @@ class _LoginViewState extends State<LoginView> {
                               SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.3,
-                                  child: Image.asset(
-                                      Utils.imagePath('neko_sleeping_${AppConfig.of(context).environment.name}.png'))),
+                                  child: Image.asset(Utils.imagePath(
+                                      'neko_sleeping_${AppConfig.of(context).environment.name}.png'))),
                               SvgPicture.asset(
                                   Utils.imagePath('mangadex_name.svg'),
                                   excludeFromSemantics: true,
