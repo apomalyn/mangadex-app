@@ -1,16 +1,27 @@
-# mangadex
+# MangaDex mobile application
 
-A new Flutter project.
+This is a shot for [MangaDex](mangadex.org) mobile version. Instead of having a PWA.
+
+## Requirements
+
+- Flutter SDK v3.3 or higher
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Before trying to build the application, run the following in a terminal:
 
-A few resources to get you started if this is your first Flutter project:
+```shell
+flutter pub get
+flutter pub run build_runner build
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+This project use flavors: `dev`, `beta` and `prod`. To run the application you need to execute the following command:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```shell
+flutter run --flavor <flavor> --target lib/main_<flavor>.dart
+```
+
+For example to run the `dev` flavor:
+```shell
+flutter run --flavor dev --target lib/main_dev.dart
+```
