@@ -7,6 +7,7 @@ import 'package:mangadex/login/login_viewmodel.dart';
 import 'package:mangadex/login/widgets/password_field.dart';
 import 'package:mangadex/shared/constant/app_theme.dart';
 import 'package:mangadex/shared/utils/utils.dart';
+import 'package:mangadex/shared/widgets/app_config.dart';
 import 'package:mangadex/shared/widgets/base_scaffold.dart';
 import 'package:stacked/stacked.dart';
 
@@ -48,8 +49,8 @@ class _LoginViewState extends State<LoginView> {
                               SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.3,
-                                  child: Image.asset(
-                                      Utils.imagePath('neko_sleeping.png'))),
+                                  child: Image.asset(Utils.imagePath(
+                                      'neko_sleeping_${AppConfig.of(context).environment.name}.png'))),
                               SvgPicture.asset(
                                   Utils.imagePath('mangadex_name.svg'),
                                   excludeFromSemantics: true,

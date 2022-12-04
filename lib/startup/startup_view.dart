@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/shared/utils/utils.dart';
+import 'package:mangadex/shared/widgets/app_config.dart';
 import 'package:mangadex/startup/startup_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
@@ -27,8 +28,8 @@ class StartupView extends StatelessWidget {
                       children: [
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.4,
-                            child: Image.asset(
-                                Utils.imagePath('neko_sleeping.png'))),
+                            child: Image.asset(Utils.imagePath(
+                                'neko_sleeping_${AppConfig.of(context).environment.name}.png'))),
                         SvgPicture.asset(Utils.imagePath('mangadex_name.svg'),
                             excludeFromSemantics: true,
                             height: MediaQuery.of(context).size.height * 0.07,
