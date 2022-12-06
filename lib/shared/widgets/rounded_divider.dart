@@ -51,7 +51,7 @@ class _RoundedDividerPainter extends CustomPainter {
   late final Paint _paint;
   final Color color;
 
-  double _progress;
+  final double _progress;
 
   _RoundedDividerPainter(
       {required this.color, double thickness = 4, required double progress})
