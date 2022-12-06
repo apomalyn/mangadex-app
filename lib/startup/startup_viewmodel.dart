@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/locator.dart';
-import 'package:mangadex/shared/constant/route_paths.dart';
+import 'package:mangadex/shared/constants/route_paths.dart';
 import 'package:mangadex/shared/services/mangadex_api.dart';
 import 'package:stacked/stacked.dart';
 

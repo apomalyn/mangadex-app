@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mangadex/router.dart';
-import 'package:mangadex/shared/constant/app_theme.dart';
+import 'package:mangadex/shared/constants/app_theme.dart';
 import 'package:mangadex/shared/widgets/app_config.dart';
 
 class MangaDexApp extends StatelessWidget {

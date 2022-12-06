@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/login/login_view.dart';
-import 'package:mangadex/shared/constant/route_paths.dart';
+import 'package:mangadex/shared/constants/route_paths.dart';
+import 'package:mangadex/shared/widgets/bottom_navigation.dart';
 import 'package:mangadex/shared/widgets/transitions/fade_transition_page.dart';
 import 'package:mangadex/startup/startup_view.dart';
 
@@ -24,6 +25,7 @@ final router = GoRouter(
           key: state.pageKey,
           child: const Scaffold(
             body: Center(child: Text("Home")),
+            bottomNavigationBar: BottomNavigation(),
           )),
       builder: (context, state) => const Scaffold(
         body: Center(child: Text("Home")),

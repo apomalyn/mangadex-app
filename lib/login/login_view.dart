@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/login/login_viewmodel.dart';
 import 'package:mangadex/login/widgets/password_field.dart';
-import 'package:mangadex/shared/constant/app_theme.dart';
+import 'package:mangadex/shared/constants/app_theme.dart';
 import 'package:mangadex/shared/utils/utils.dart';
 import 'package:mangadex/shared/widgets/app_config.dart';
 import 'package:mangadex/shared/widgets/base_scaffold.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/locator.dart';
-import 'package:mangadex/shared/constant/route_paths.dart';
+import 'package:mangadex/shared/constants/route_paths.dart';
 
 String getRouterKey(String route) {
   return 'key_$route';

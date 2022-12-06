@@ -8,5 +8,7 @@
   "login_forgot_username_password": "Forgot Username/Password",
   "login_enter_username": "Please enter your username",
   "login_enter_password": "Please enter your password",
-  "login_invalid_credentials": "Wrong credentials, please retry"
+  "login_invalid_credentials": "Wrong credentials, please retry",
+  "home": "Home",
+  "library": "Library"
 }
