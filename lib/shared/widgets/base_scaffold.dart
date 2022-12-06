@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangadex/shared/widgets/bottom_navigation.dart';
 import 'package:mangadex/shared/widgets/loading.dart';
 
 /// Basic Scaffold to avoid boilerplate code in the application.
@@ -16,6 +17,8 @@ class BaseScaffold extends StatefulWidget {
 
   final bool _isLoading;
 
+  final bool showBottomBar;
+
   /// If true, interactions with the UI is limited while loading.
   final bool isInteractionLimitedWhileLoading;
 
@@ -26,6 +29,7 @@ class BaseScaffold extends StatefulWidget {
       this.fab,
       this.fabPosition,
       bool isLoading = false,
+      this.showBottomBar = false,
       this.isInteractionLimitedWhileLoading = true,
       this.resizeToAvoidBottomInset = false})
       : _isLoading = isLoading;
@@ -53,5 +57,6 @@ class _BaseScaffoldState extends State<BaseScaffold> {
         ),
         floatingActionButton: widget.fab,
         floatingActionButtonLocation: widget.fabPosition,
+        bottomNavigationBar: widget.showBottomBar ? const BottomNavigation() : null,
       );
 }

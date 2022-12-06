@@ -18,25 +18,35 @@ class RoundedDivider extends StatefulWidget {
 }
 
 class _RoundedDividerState extends State<RoundedDivider> with SingleTickerProviderStateMixin {
-  double _progress = 1.0;
+  double _progress = 0.0;
   Animation<double>? _animation;
+  AnimationController? _controller;
 
   @override
   void initState() {
     super.initState();
     if(widget.animationDuration != null) {
-      var controller =
+      _controller =
           AnimationController(duration: widget.animationDuration, vsync: this);
 
-      _animation = Tween(begin: 0.0, end: 1.0).animate(controller)
+      _animation = Tween(begin: 0.0, end: 1.0).animate(_controller!)
         ..addListener(() {
           setState(() {
             _progress = _animation!.value;
           });
         });
 
-      controller.forward();
+      _controller?.forward();
+    } else {
+      _progress = 1.0;
     }
+  }
+
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override

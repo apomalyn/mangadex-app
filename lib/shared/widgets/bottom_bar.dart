@@ -449,7 +449,7 @@ class _Tile extends StatelessWidget {
                   if (selected)
                     const RoundedDivider(
                       thickness: 3,
-                      animationDuration: Duration(milliseconds: 500),
+                      animationDuration: Duration(milliseconds: 300),
                       color: AppTheme.orange,
                     )
                 ],
@@ -476,7 +476,7 @@ class _Tile extends StatelessWidget {
               if (selected)
                 const RoundedDivider(
                   thickness: 3,
-                  animationDuration: Duration(milliseconds: 500),
+                  animationDuration: Duration(milliseconds: 300),
                   color: AppTheme.orange,
                 )
             ],
