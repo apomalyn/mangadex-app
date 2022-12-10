@@ -10,5 +10,14 @@
   "login_enter_password": "Please enter your password",
   "login_invalid_credentials": "Wrong credentials, please retry",
   "home": "Home",
-  "library": "Library"
+  "library": "Library",
+  "library_reading_list": "Reading lists",
+  "library_history": "History",
+  "library_offline": "Offline",
+  "manga_status_reading": "Reading",
+  "manga_status_plan_to_read": "Plan to read",
+  "manga_status_completed": "Completed",
+  "manga_status_on_hold": "On hold",
+  "manga_status_re_reading": "Re-reading",
+  "manga_status_dropped": "Dropped"
 }

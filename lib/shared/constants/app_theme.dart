@@ -28,6 +28,10 @@ class AppTheme {
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
         ),
+        toggleButtonsTheme: theme.toggleButtonsTheme.copyWith(
+            fillColor: orange,
+            selectedColor: Colors.white
+        ),
         bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
             backgroundColor: white,
             selectedItemColor: Colors.black,
@@ -54,6 +58,12 @@ class AppTheme {
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
         ),
+        toggleButtonsTheme: theme.toggleButtonsTheme.copyWith(
+          fillColor: orange,
+          selectedColor: Colors.white,
+          selectedBorderColor: orange
+        ),
+        appBarTheme: theme.appBarTheme.copyWith(backgroundColor: darkGrey),
         bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
             backgroundColor: darkGrey,
             selectedItemColor: Colors.white,
@@ -80,10 +90,17 @@ class AppTheme {
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent, width: 2.0)),
         ),
+        toggleButtonsTheme: theme.toggleButtonsTheme.copyWith(
+            fillColor: orange,
+            selectedColor: Colors.white
+        ),
         bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
             backgroundColor: slate,
-            selectedIconTheme: theme.bottomNavigationBarTheme.selectedIconTheme?.copyWith(color: white),
-            unselectedIconTheme: theme.bottomNavigationBarTheme.unselectedIconTheme?.copyWith(color: white),
+            selectedIconTheme: theme.bottomNavigationBarTheme.selectedIconTheme
+                ?.copyWith(color: white),
+            unselectedIconTheme: theme
+                .bottomNavigationBarTheme.unselectedIconTheme
+                ?.copyWith(color: white),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white),
         progressIndicatorTheme:
