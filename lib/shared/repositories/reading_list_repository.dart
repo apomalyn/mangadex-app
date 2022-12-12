@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:logger/logger.dart';
 import 'package:mangadex/locator.dart';
 import 'package:mangadex/shared/models/enums.dart';
@@ -25,12 +23,9 @@ class ReadingListRepository extends MangaDexApi {
     }
 
     const endpoint = '/manga/status';
-    final response =
-        await httpClient.get(buildUrl(endpoint), headers: await buildHeader());
-
-    checkForHttpError(response);
-
-    final data = MangaStatusResponse.fromJson(jsonDecode(response.body));
+    final data = await get<MangaStatusResponse>(
+        buildUrl(endpoint), MangaStatusResponse.fromJson,
+        headers: await buildHeader());
 
     data.statuses.forEach((key, value) {
       _readingListMangaUuid.update(value, (uuids) {

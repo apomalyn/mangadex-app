@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:logger/logger.dart';
 import 'package:mangadex/locator.dart';
 import 'package:mangadex/shared/models/manga.dart';
@@ -13,11 +11,8 @@ class MangaRepository extends MangaDexApi {
     const endpoint = '/manga';
     final uri = buildUrl(endpoint, {'ids[]': ids});
 
-    final response = await httpClient.get(uri, headers: await buildHeader());
-
-    checkForHttpError(response);
-
-    final data = MangaResponse.fromJson(jsonDecode(response.body));
+    final data = await get<MangaResponse>(uri, MangaResponse.fromJson,
+        headers: await buildHeader());
 
     return data.mangas;
   }

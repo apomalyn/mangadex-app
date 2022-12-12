@@ -20,14 +20,13 @@ class MangaDexApi {
 
   @protected
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-
-  @protected
-  final http.Client httpClient;
+  
+  final http.Client _httpClient;
 
   String? _token;
 
   MangaDexApi({http.Client? client})
-      : httpClient = client ?? RetryClient(http.Client());
+      : _httpClient = client ?? RetryClient(http.Client());
 
   @protected
   Uri buildUrl(String endpoint, [Map<String, dynamic>? queryParameters]) =>
@@ -54,25 +53,50 @@ class MangaDexApi {
     return headers;
   }
 
+  @protected
+  Future<T> get<T>(
+      Uri url, T Function(Map<String, dynamic>) fromJsonConstructor,
+      {Map<String, String>? headers}) async {
+    final response =
+        await _httpClient.get(url, headers: headers ?? await buildHeader());
+
+    checkForHttpError(response);
+
+    return fromJsonConstructor(jsonDecode(response.body));
+  }
+
+  @protected
+  Future<T> post<T>(
+      Uri url, T Function(Map<String, dynamic>) fromJsonConstructor,
+      {Map<String, String>? headers,
+      Map<String, dynamic>? body,
+      Function(http.Response)? checkResponse}) async {
+    final response = await _httpClient.post(url,
+        headers: headers ?? await buildHeader(),
+        body: body != null ? jsonEncode(body) : null);
+
+    checkForHttpError(response);
+    if (checkResponse != null) {
+      checkResponse(response);
+    }
+
+    return fromJsonConstructor(jsonDecode(response.body));
+  }
+
   Future<void> login(
       {String username = '',
       String email = '',
       required String password}) async {
     const endpoint = '/auth/login';
-    final response = await httpClient.post(buildUrl(endpoint),
+    final data = await post<LoginResponse>(buildUrl(endpoint), LoginResponse.fromJson,
         headers: await buildHeader(),
-        body: jsonEncode(
-            {'username': username, 'email': email, 'password': password}));
-
-    // Handle logging error
-    if (response.statusCode == HttpStatus.unauthorized) {
-      throw const UnauthorizedException(
-          endpoint: endpoint, message: 'Invalid credentials');
-    }
-    checkForHttpError(response);
-
-    final data = LoginResponse.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>);
+        body: {'username': username, 'email': email, 'password': password},
+        checkResponse: (http.Response response) {
+      if (response.statusCode == HttpStatus.unauthorized) {
+        throw const UnauthorizedException(
+            endpoint: endpoint, message: 'Invalid credentials');
+      }
+    });
 
     _secureStorage.write(key: tokenSecureKey, value: data.token.session);
     _secureStorage.write(key: refreshTokenSecureKey, value: data.token.refresh);
@@ -101,12 +125,9 @@ class MangaDexApi {
 
   Future<bool> _checkToken() async {
     const endpoint = '/auth/check';
-    final response =
-        await httpClient.get(buildUrl(endpoint), headers: await buildHeader());
-
-    checkForHttpError(response);
-
-    final data = CheckResponse.fromJson(jsonDecode(response.body));
+    final data = await get<CheckResponse>(
+        buildUrl(endpoint), CheckResponse.fromJson,
+        headers: await buildHeader());
 
     return data.isAuthenticated;
   }
@@ -114,17 +135,15 @@ class MangaDexApi {
   Future<void> _refreshToken() async {
     const endpoint = '/auth/refresh';
     final refreshToken = await _secureStorage.read(key: refreshTokenSecureKey);
-    final response = await httpClient.post(buildUrl(endpoint),
+    final data = await post<LoginResponse>(buildUrl(endpoint), LoginResponse.fromJson,
         headers: await buildHeader(),
-        body: jsonEncode({'token': refreshToken}));
-
-    if (response.statusCode == HttpStatus.unauthorized) {
-      throw const UnauthorizedException(
-          endpoint: endpoint, message: 'Invalid credentials');
-    }
-    checkForHttpError(response);
-
-    final data = LoginResponse.fromJson(jsonDecode(response.body));
+        body: {'token': refreshToken},
+        checkResponse: (http.Response response) {
+          if (response.statusCode == HttpStatus.unauthorized) {
+            throw const UnauthorizedException(
+                endpoint: endpoint, message: 'Invalid credentials');
+          }
+        });
 
     _secureStorage.write(key: tokenSecureKey, value: data.token.session);
     _secureStorage.write(key: refreshTokenSecureKey, value: data.token.refresh);
@@ -134,7 +153,7 @@ class MangaDexApi {
   Future<void> logout() async {
     const endpoint = '/auth/logout';
     final response =
-        await httpClient.post(buildUrl(endpoint), headers: await buildHeader());
+        await _httpClient.post(buildUrl(endpoint), headers: await buildHeader());
 
     // Clean up storage
     _secureStorage.delete(key: tokenSecureKey);
