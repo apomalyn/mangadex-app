@@ -4,8 +4,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'package:mangadex/shared/models/error_response.dart';
-import 'package:mangadex/shared/models/login_response.dart';
-import 'package:mangadex/shared/models/check_response.dart';
+import 'package:mangadex/shared/models/responses/login_response.dart';
+import 'package:mangadex/shared/models/responses/check_response.dart';
 import 'package:mangadex/shared/utils/exceptions/unauthorized_exception.dart';
 import 'package:mangadex/shared/utils/exceptions/http_exception.dart' as app;
 import 'package:meta/meta.dart';
@@ -22,15 +22,16 @@ class MangaDexApi {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @protected
-  final http.Client _httpClient;
+  final http.Client httpClient;
 
   String? _token;
 
   MangaDexApi({http.Client? client})
-      : _httpClient = client ?? RetryClient(http.Client());
+      : httpClient = client ?? RetryClient(http.Client());
 
   @protected
-  Uri buildUrl(String endpoint) => Uri.https(_apiUrl, endpoint);
+  Uri buildUrl(String endpoint, [Map<String, dynamic>? queryParameters]) =>
+      Uri.https(_apiUrl, endpoint, queryParameters);
 
   @protected
   Future<Map<String, String>> buildHeader() async {
@@ -58,7 +59,7 @@ class MangaDexApi {
       String email = '',
       required String password}) async {
     const endpoint = '/auth/login';
-    final response = await _httpClient.post(buildUrl(endpoint),
+    final response = await httpClient.post(buildUrl(endpoint),
         headers: await buildHeader(),
         body: jsonEncode(
             {'username': username, 'email': email, 'password': password}));
@@ -101,7 +102,7 @@ class MangaDexApi {
   Future<bool> _checkToken() async {
     const endpoint = '/auth/check';
     final response =
-        await _httpClient.get(buildUrl(endpoint), headers: await buildHeader());
+        await httpClient.get(buildUrl(endpoint), headers: await buildHeader());
 
     checkForHttpError(response);
 
@@ -113,7 +114,7 @@ class MangaDexApi {
   Future<void> _refreshToken() async {
     const endpoint = '/auth/refresh';
     final refreshToken = await _secureStorage.read(key: refreshTokenSecureKey);
-    final response = await _httpClient.post(buildUrl(endpoint),
+    final response = await httpClient.post(buildUrl(endpoint),
         headers: await buildHeader(),
         body: jsonEncode({'token': refreshToken}));
 
@@ -132,8 +133,8 @@ class MangaDexApi {
 
   Future<void> logout() async {
     const endpoint = '/auth/logout';
-    final response = await _httpClient.post(buildUrl(endpoint),
-        headers: await buildHeader());
+    final response =
+        await httpClient.post(buildUrl(endpoint), headers: await buildHeader());
 
     // Clean up storage
     _secureStorage.delete(key: tokenSecureKey);
@@ -143,6 +144,7 @@ class MangaDexApi {
     checkForHttpError(response);
   }
 
+  @protected
   void checkForHttpError(http.Response response) {
     if (response.statusCode >= HttpStatus.badRequest) {
       // Handle any other error

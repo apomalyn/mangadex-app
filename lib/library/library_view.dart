@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/library/library_viewmodel.dart';
-import 'package:mangadex/reading_list/reading_list_view.dart';
+import 'package:mangadex/reading_list/reading_list_tab_view.dart';
 import 'package:mangadex/shared/widgets/base_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:stacked/stacked.dart';
@@ -33,7 +33,7 @@ class _LibraryViewState extends State<LibraryView>
               body: TabBarView(
                 controller: viewModel.tabController,
                 children: [
-                  const ReadingListView(),
+                  const ReadingListTabView(),
                   Center(
                     child: Text(AppLocalizations.of(context)!.library_history),
                   ),
