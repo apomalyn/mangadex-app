@@ -62,3 +62,13 @@ enum MangaLinksType {
 
   final String code;
 }
+
+enum CoverSize {
+  full(-1),
+  medium(512),
+  small(256);
+
+  const CoverSize(this.size);
+
+  final int? size;
+}

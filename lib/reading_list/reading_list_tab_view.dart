@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangadex/reading_list/reading_list_tab_viewmodel.dart';
 import 'package:mangadex/shared/widgets/loading.dart';
+import 'package:mangadex/shared/widgets/manga_tile.dart';
 import 'package:stacked/stacked.dart';
 
 class ReadingListTabView extends StatefulWidget {
@@ -41,13 +42,18 @@ class _ReadingListTabViewState extends State<ReadingListTabView> {
                                 ))
                             .toList(growable: false)),
                     Expanded(
-                      child: ListView.builder(
+                      child: GridView.builder(
                           padding: const EdgeInsets.only(top: 4.0, bottom: 2.0),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.7,
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 5,
+                            crossAxisSpacing: 5,
+                          ),
                           itemCount: viewModel.mangas.length,
                           itemBuilder: (BuildContext context, int index) =>
-                              ListTile(
-                                  title: Text(viewModel.mangas[index].attributes
-                                      .title.values.first))),
+                              MangaTile(
+                                  manga: viewModel.mangas[index], coverUrl: viewModel.getMangaCoverUrl(index))),
                     )
                   ],
                 ),

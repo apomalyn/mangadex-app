@@ -1,15 +1,16 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:mangadex/locator.dart';
 import 'package:mangadex/shared/models/enums.dart';
 import 'package:mangadex/shared/models/manga.dart';
 import 'package:mangadex/shared/models/utils/pair.dart';
+import 'package:mangadex/shared/repositories/manga_repository.dart';
 import 'package:mangadex/shared/repositories/reading_list_repository.dart';
 import 'package:stacked/stacked.dart';
 
 class ReadingListTabViewModel extends FutureViewModel {
   final _repository = locator<ReadingListRepository>();
+  final _mangaRepository = locator<MangaRepository>();
   final AppLocalizations appLocalizations;
   final GoRouter router;
 
@@ -80,4 +81,7 @@ class ReadingListTabViewModel extends FutureViewModel {
       _mangas = value;
     });
   }
+
+  String getMangaCoverUrl(int index) =>
+      _mangaRepository.getCoverUrl(_mangas[index], CoverSize.small);
 }

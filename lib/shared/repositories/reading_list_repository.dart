@@ -8,7 +8,7 @@ import 'package:mangadex/shared/services/mangadex_api.dart';
 
 class ReadingListRepository extends MangaDexApi {
   final _logger = locator<Logger>();
-  final _mangaRepository = MangaRepository();
+  final _mangaRepository = locator<MangaRepository>();
 
   final Map<ReadingListType, Map<String, Manga?>> _readingListMangaUuid = {
     for (var list in ReadingListType.values) list: {}
